@@ -1,0 +1,368 @@
+# =============================================
+# Crak Anti-Cheat Configuration
+# Version: 2.0.0
+# =============================================
+
+# =============================================
+# GENERAL SETTINGS
+# =============================================
+settings:
+  enabled: true
+  debug: false
+  check-interval: 1  # Seconds between checks
+  language: "en"     # Language for messages
+
+# =============================================
+# ALERT SYSTEM
+# =============================================
+alerts:
+  enabled: true
+  log-to-console: true
+  prefix: "&8[&cAntiCheat&8]&r"
+  format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  
+  # Category specific alerts
+  movement:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  combat:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  interaction:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  xray:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  esp:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  world:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  chat:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+  inventory:
+    enabled: true
+    format: "&c{player} &7failed &c{check} &7(VL: {violations}) &7- &f{details}"
+
+# =============================================
+# VIOLATION THRESHOLDS
+# =============================================
+violations:
+  # Movement Checks
+  speed: 10
+  fly: 15
+  nofall: 20
+  timer: 10
+  phase: 10
+  scaffold: 10
+  jesus: 10
+  spider: 10
+  step: 10
+  
+  # Combat Checks
+  killaura: 20
+  reach: 10
+  aimbot: 10
+  triggerbot: 10
+  hitbox: 10
+  criticals: 10
+  bowaura: 15
+  velocity: 10
+  godmode: 10
+  
+  # Interaction Checks
+  fastclick: 15
+  fastconsume: 10
+  fastdrop: 10
+  autoeat: 10
+  
+  # World Checks
+  fastbreak: 15
+  fastplace: 15
+  
+  # X-Ray
+  xray: 30
+  
+  # ESP
+  esp: 10
+  
+  # Inventory
+  dupe: 10
+  
+  # Chat
+  spam: 10
+  advertise: 5
+  swearing: 10
+
+# =============================================
+# PUNISHMENT SETTINGS
+# =============================================
+punishments:
+  # Movement
+  movement-speed: "SOFTBAN"
+  movement-fly: "PERM"
+  movement-nofall: "TEMP"
+  movement-timer: "TEMP"
+  movement-phase: "PERM"
+  movement-scaffold: "TEMP"
+  movement-jesus: "TEMP"
+  movement-spider: "TEMP"
+  movement-step: "TEMP"
+  
+  # Combat
+  combat-killaura: "PERM"
+  combat-reach: "TEMP"
+  combat-aimbot: "PERM"
+  combat-triggerbot: "TEMP"
+  combat-hitbox: "TEMP"
+  combat-criticals: "TEMP"
+  combat-bowaura: "PERM"
+  combat-velocity: "TEMP"
+  combat-godmode: "PERM"
+  
+  # Interaction
+  interaction-fastclick: "TEMP"
+  interaction-fastconsume: "TEMP"
+  interaction-fastdrop: "TEMP"
+  interaction-autoeat: "TEMP"
+  
+  # World
+  world-fastbreak: "TEMP"
+  world-fastplace: "TEMP"
+  
+  # X-Ray
+  xray-oremining: "TEMP"
+  xray-valuableores: "TEMP"
+  
+  # ESP
+  esp-entityesp: "TEMP"
+  
+  # Inventory
+  inventory-dupe: "PERM"
+  
+  # Chat
+  chat-spam: "SOFTBAN"
+  chat-advertise: "TEMP"
+  chat-swearing: "SOFTBAN"
+
+# =============================================
+# DURATIONS (in milliseconds)
+# =============================================
+durations:
+  temp: 86400000      # 24 hours
+  softban: 3600000    # 1 hour
+  perm: -1            # Permanent
+
+# =============================================
+# X-RAY DETECTION
+# =============================================
+xray:
+  enabled: true
+  max-ores-per-minute: 15
+  max-valuable-ores: 10
+  check-interval: 60  # Seconds
+  punish-on-suspicion: true
+  detect-ores:
+    - DIAMOND_ORE
+    - DEEPSLATE_DIAMOND_ORE
+    - EMERALD_ORE
+    - DEEPSLATE_EMERALD_ORE
+    - GOLD_ORE
+    - DEEPSLATE_GOLD_ORE
+    - IRON_ORE
+    - DEEPSLATE_IRON_ORE
+    - REDSTONE_ORE
+    - DEEPSLATE_REDSTONE_ORE
+    - LAPIS_ORE
+    - DEEPSLATE_LAPIS_ORE
+    - NETHER_QUARTZ_ORE
+    - NETHER_GOLD_ORE
+    - ANCIENT_DEBRIS
+    - COAL_ORE
+    - DEEPSLATE_COAL_ORE
+    - COPPER_ORE
+    - DEEPSLATE_COPPER_ORE
+
+# =============================================
+# ALT DETECTION
+# =============================================
+alt-detection:
+  enabled: true
+  punish: true
+  max-accounts: 3
+  punishment: "SOFTBAN"
+  log-ips: true
+  check-on-join: true
+  alert-staff: true
+  format: "&c[Alt Detection] &7{player} &fhas {count} accounts on IP {ip}"
+
+# =============================================
+# DISCORD INTEGRATION
+# =============================================
+discord:
+  enabled: true
+  webhook-url: "https://discord.com/api/webhooks/your-webhook-id/your-webhook-token"
+  alerts-channel: "#alerts"
+  bans-channel: "#bans"
+  alerts-format: "**{player}** failed **{check}** (VL: {violations}) - {details}"
+  bans-format: "**{player}** was banned for **{reason}** | Duration: **{duration}**"
+  embed-color: 16711680  # Red
+  embed-color-alert: 16776960  # Yellow
+
+# =============================================
+# DATABASE INTEGRATION
+# =============================================
+database:
+  enabled: true
+  type: "sqlite"  # Options: sqlite, mysql
+  host: "localhost"
+  port: 3306
+  database: "anticheat"
+  username: "root"
+  password: "password"
+  table-prefix: "cac_"
+  pool-size: 10
+  max-lifetime: 60000  # Milliseconds
+
+# =============================================
+# WEB DASHBOARD
+# =============================================
+web-dashboard:
+  enabled: true
+  port: 8080
+  password: "admin123"  # CHANGE THIS!
+  auto-detect-hosting: true
+  session-timeout: 3600  # Seconds
+  rate-limit: 5  # Max login attempts per minute
+  allowed-ips: []  # Empty = all IPs allowed
+  show-alerts: true
+  show-bans: true
+  show-stats: true
+  theme: "dark"
+
+# =============================================
+# VPN/PROXY DETECTION
+# =============================================
+vpn-detection:
+  enabled: false
+  api-key: "your-api-key"
+  provider: "ip-api"  # Options: ip-api, ipinfo, ip2location
+  check-on-join: true
+  punishment: "SOFTBAN"
+  cache-time: 3600  # Seconds
+  exempt-countries:
+    - "US"
+    - "GB"
+    - "CA"
+
+# =============================================
+# ANTI-CRASH PROTECTION
+# =============================================
+anti-crash:
+  enabled: true
+  max-packet-size: 1024  # Bytes
+  max-chat-length: 256  # Characters
+  max-command-length: 128
+  prevent-sleep: true
+  prevent-sound-crash: true
+  prevent-book-crash: true
+  prevent-sign-crash: true
+
+# =============================================
+# ANTI-COMMAND SPAM
+# =============================================
+anti-commandspam:
+  enabled: true
+  cooldown: 500  # Milliseconds
+  warn-message: "&cPlease wait {seconds} seconds before using commands!"
+  exempt-commands:
+    - "/home"
+    - "/spawn"
+    - "/warp"
+    - "/tpa"
+    - "/msg"
+    - "/tell"
+
+# =============================================
+# BYPASS SETTINGS
+# =============================================
+bypass:
+  permissions: true
+  allowed-players:
+    - "Steve"
+    - "Notch"
+  exempt-worlds:
+    - "creative"
+    - "plotworld"
+    - "buildworld"
+  exempt-commands: []
+  exempt-checks:
+    - "fly"
+    - "speed"
+
+# =============================================
+# AUTO-BAN SETTINGS
+# =============================================
+autoban:
+  enabled: true
+  announce: true
+  broadcast: true
+  message: "&c{player} &7has been banned for &c{reason}"
+  message-staff: "&c[AutoBan] &7{player} &fwas banned by Anti-Cheat for &c{reason}"
+  notify-console: true
+
+# =============================================
+# SOFTBAN SETTINGS
+# =============================================
+softban:
+  enabled: true
+  message: "&cYou have been softbanned!\n&7Reason: {reason}\n&7Duration: {duration}\n&7By: Crak Anti-Cheat"
+
+# =============================================
+# KICK MESSAGES
+# =============================================
+kick-messages:
+  cheating: "&cYou have been kicked for cheating!\n&7Reason: {reason}\n&7By: Crak Anti-Cheat"
+  softban: "&cYou have been softbanned!\n&7Reason: {reason}\n&7Duration: {duration}"
+  alt: "&cYou have been kicked for using alt accounts!\n&7Reason: {reason}"
+
+# =============================================
+# LANGUAGE SETTINGS
+# =============================================
+language:
+  default: "en"
+  available:
+    - "en"
+    - "es"
+    - "fr"
+    - "de"
+    - "zh"
+  messages:
+    en:
+      prefix: "&8[&cAntiCheat&8]&r"
+      no-permission: "&cYou don't have permission to do this!"
+      player-not-found: "&cPlayer not found!"
+      reloaded: "&aConfiguration reloaded successfully!"
+      data-reset: "&aData reset for {player}"
+      alerts-enabled: "&aAnti-Cheat alerts enabled!"
+      alerts-disabled: "&cAnti-Cheat alerts disabled!"
+      banned: "&c{player} &7has been banned for &c{reason}"
+      unbanned: "&a{player} &7has been unbanned"
+      check-title: "&6=== {player} - Anti-Cheat Info ==="
+      status-clean: "&aCLEAN"
+      status-softbanned: "&cSOFTBANNED"
+
+# =============================================
+# ADVANCED SETTINGS
+# =============================================
+advanced:
+  enable-metrics: true
+  enable-update-checker: true
+  enable-auto-backup: true
+  backup-interval: 86400  # 24 hours in seconds
+  max-violations-per-minute: 50
+  clear-data-on-restart: false
+  log-level: "INFO"  # DEBUG, INFO, WARNING, ERROR

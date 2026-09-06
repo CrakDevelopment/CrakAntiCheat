@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.crak</groupId>
+    <artifactId>CrakAntiCheat</artifactId>
+    <version>2.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>CrakAntiCheat</name>
+    <description>Ultimate anti-cheat protection with ALL features!</description>
+    <url>https://github.com/CrakDevelopment/CrakAntiCheat</url>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <repositories>
+        <!-- Spigot Repository -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <!-- Paper Repository -->
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <!-- Sonatype Repository -->
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <!-- CodeMC Repository (for ProtocolLib) -->
+        <repository>
+            <id>codemc</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Paper API -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- JSON Simple -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        
+        <!-- MySQL Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        
+        <!-- SQLite JDBC -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.42.0.0</version>
+        </dependency>
+        
+        <!-- ProtocolLib (Optional - for packet detection) -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- PlaceholderAPI (Optional) -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.3</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Vault (Optional) -->
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            
+            <!-- Shade Plugin - Package dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <!-- Relocate JSON Simple to avoid conflicts -->
+                                <relocation>
+                                    <pattern>org.json.simple</pattern>
+                                    <shadedPattern>com.crak.anticheat.libs.json</shadedPattern>
+                                </relocation>
+                                <!-- Relocate MySQL Connector -->
+                                <relocation>
+                                    <pattern>com.mysql</pattern>
+                                    <shadedPattern>com.crak.anticheat.libs.mysql</shadedPattern>
+                                </relocation>
+                                <!-- Relocate SQLite -->
+                                <relocation>
+                                    <pattern>org.sqlite</pattern>
+                                    <shadedPattern>com.crak.anticheat.libs.sqlite</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Resources Plugin - Filter config files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+            <!-- JAR Plugin - Add plugin metadata -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.html</include>
+                    <include>**/*.css</include>
+                    <include>**/*.js</include>
+                    <include>**/*.png</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.gif</include>
+                    <include>**/*.svg</include>
+                    <include>**/*.ico</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

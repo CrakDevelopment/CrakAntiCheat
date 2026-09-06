@@ -1,0 +1,184 @@
+# =============================================
+# Crak Anti-Cheat Plugin Metadata
+# =============================================
+
+name: CrakAntiCheat
+version: 2.0.0
+main: com.crak.anticheat.Main
+api-version: 1.13
+author: CrakDevelopment
+description: Ultimate anti-cheat protection with ALL features! Including 30+ hack detections, Discord integration, Database support, Web Dashboard, and more!
+website: https://github.com/CrakDevelopment/CrakAntiCheat
+prefix: CrakAC
+
+# =============================================
+# DEPENDENCIES
+# =============================================
+depend: []
+softdepend:
+  - ProtocolLib
+  - PlaceholderAPI
+  - Vault
+  - LuckPerms
+  - EssentialsX
+
+# =============================================
+# COMMANDS
+# =============================================
+commands:
+  crakanticheat:
+    description: Main command for Crak Anti-Cheat
+    usage: /crakanticheat <subcommand>
+    aliases: [cac, anticheat]
+    permission: crakanticheat.staff
+    permission-message: "&cYou don't have permission to use this command!"
+  
+  cac:
+    description: Shortcut for Crak Anti-Cheat
+    usage: /cac <subcommand>
+    aliases: [anticheat]
+
+# =============================================
+# PERMISSIONS
+# =============================================
+permissions:
+  # Staff Permission - Basic access
+  crakanticheat.staff:
+    description: Staff access to alerts and check commands
+    default: op
+    children:
+      crakanticheat.alerts: true
+      crakanticheat.check: true
+      crakanticheat.alts: true
+      crakanticheat.stats: true
+
+  # Admin Permission - Full access
+  crakanticheat.admin:
+    description: Full admin access to all anti-cheat features
+    default: op
+    children:
+      crakanticheat.staff: true
+      crakanticheat.reload: true
+      crakanticheat.reset: true
+      crakanticheat.ban: true
+      crakanticheat.unban: true
+      crakanticheat.dashboard: true
+      crakanticheat.bypass: true
+
+  # Bypass Permission - Bypass all checks
+  crakanticheat.bypass:
+    description: Bypasses all anti-cheat checks
+    default: false
+
+  # Specific Permission Nodes
+  crakanticheat.alerts:
+    description: Allows toggling alerts
+    default: op
+  
+  crakanticheat.check:
+    description: Allows checking player violations
+    default: op
+  
+  crakanticheat.alts:
+    description: Allows checking alt accounts
+    default: op
+  
+  crakanticheat.stats:
+    description: Allows viewing server statistics
+    default: op
+  
+  crakanticheat.reload:
+    description: Allows reloading configuration
+    default: op
+  
+  crakanticheat.reset:
+    description: Allows resetting player data
+    default: op
+  
+  crakanticheat.ban:
+    description: Allows banning players
+    default: op
+  
+  crakanticheat.unban:
+    description: Allows unbanning players
+    default: op
+  
+  crakanticheat.dashboard:
+    description: Allows access to web dashboard
+    default: op
+
+# =============================================
+# PERMISSION GROUPS (Example)
+# =============================================
+permission-groups:
+  default:
+    permissions:
+      - crakanticheat.staff: false
+      - crakanticheat.admin: false
+      - crakanticheat.bypass: false
+  
+  staff:
+    permissions:
+      - crakanticheat.staff: true
+      - crakanticheat.alerts: true
+      - crakanticheat.check: true
+      - crakanticheat.alts: true
+      - crakanticheat.stats: true
+  
+  admin:
+    permissions:
+      - crakanticheat.admin: true
+      - crakanticheat.staff: true
+      - crakanticheat.alerts: true
+      - crakanticheat.check: true
+      - crakanticheat.alts: true
+      - crakanticheat.stats: true
+      - crakanticheat.reload: true
+      - crakanticheat.reset: true
+      - crakanticheat.ban: true
+      - crakanticheat.unban: true
+      - crakanticheat.dashboard: true
+  
+  trusted:
+    permissions:
+      - crakanticheat.bypass: true
+
+# =============================================
+# API INFORMATION
+# =============================================
+api:
+  version: 1.0.0
+  examples:
+    - "Get player violations: CrakAntiCheat.getInstance().getPunishmentManager().getViolations(player, 'Speed')"
+    - "Ban player: CrakAntiCheat.getInstance().getPunishmentManager().banPlayer(player, 'Hacking')"
+    - "Send alert: CrakAntiCheat.getInstance().getAlertManager().sendAlert(player, 'Combat', 'KillAura', 'VL: 20', 20)"
+
+# =============================================
+# METRICS
+# =============================================
+metrics:
+  enabled: true
+  url: "https://bstats.org/plugin/bukkit/CrakAntiCheat"
+
+# =============================================
+# VERSION HISTORY
+# =============================================
+changelog:
+  2.0.0:
+    - "Added 30+ new hack detections"
+    - "Added Web Dashboard"
+    - "Added Discord Integration"
+    - "Added Database Support (MySQL/SQLite)"
+    - "Added Auto-hosting detection"
+    - "Added Web API endpoints"
+    - "Added Chat filtering"
+    - "Added Anti-crash protection"
+    - "Improved performance"
+    - "Fixed numerous bugs"
+  1.0.0:
+    - "Initial release"
+    - "Basic anti-cheat checks"
+    - "Speed, Fly, NoFall detection"
+    - "KillAura detection"
+    - "X-Ray detection"
+    - "Alt detection"

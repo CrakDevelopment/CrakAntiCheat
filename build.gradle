@@ -1,0 +1,80 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.crak'
+version = '2.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+dependencies {
+    // Spigot API
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    
+    // JSON Simple
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    
+    // MySQL Connector
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    
+    // SQLite JDBC
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+}
+
+// Create JAR with all dependencies included
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = 'CrakAntiCheat-2.0.0.jar'
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'CrakDevelopment'
+        )
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// Task to create project structure
+task createStructure {
+    doLast {
+        file('src/main/java/com/crak/anticheat/integrations').mkdirs()
+        file('src/main/java/com/crak/anticheat/utils').mkdirs()
+        file('src/main/java/com/crak/anticheat/checks').mkdirs()
+        file('src/main/java/com/crak/anticheat/detection').mkdirs()
+        file('src/main/resources').mkdirs()
+        
+        println "✅ Project structure created!"
+        println "📁 Main: src/main/java/com/crak/anticheat/"
+        println "📁 Resources: src/main/resources/"
+    }
+}
+
+// Task to copy JAR to server
+task deploy(type: Copy) {
+    dependsOn jar
+    from 'build/libs/CrakAntiCheat-2.0.0.jar'
+    into '../server/plugins/'
+    description = 'Deploys the plugin to the server plugins folder'
+}

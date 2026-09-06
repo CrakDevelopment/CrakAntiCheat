@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: CrakAntiCheat
+Implementation-Version: 2.0.0
+Implementation-Vendor: CrakDevelopment
+
